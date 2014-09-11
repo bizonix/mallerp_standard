@@ -23,7 +23,7 @@
                         <b><?=lang('username')?></b>
                     </td>
                     <td style="width: 75%; padding-left: 10px;" class="tableCellTwo">
-                        <input type="text" maxlength="50" value="admin" size="20" name="username" class="input" style="width: 80%;">
+                        <input type="text" maxlength="50" value="" size="20" name="username" class="input" style="width: 80%;">
                     </td>
 
                 </tr>
@@ -31,7 +31,7 @@
 
                     <td align="right" class="tableCellTwo"><b><?=lang('password')?></b></td>
                     <td style="padding-left: 10px;" class="tableCellTwo">
-                        <input type="password" maxlength="32" value="demodemo" size="20" name="password" class="input" style="width: 80%;">
+                        <input type="password" maxlength="32" value="" size="20" name="password" class="input" style="width: 80%;">
                     </td>
                 </tr><tr>
 

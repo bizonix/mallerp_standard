@@ -1,0 +1,32 @@
+[provider]
+purchase/provider/add = add_a_new_provider
+purchase/provider/management = provider_management
+purchase/provider/view_list = provider_view
+
+[purchase]
+purchase/purchase_list/view_list = purchase_list
+purchase/order/manage = purchase_management
+purchase/order/view_list = view_over_purchase
+purchase/order/pending_order = purchase_review
+purchase/order/for_the_purchase_orders = for_the_purchase_orders
+purchase/order/my_for_the_purchase_orders = my_for_the_purchase_orders
+
+[purchase_apply]
+purchase/purchase_apply/manage = purchase_apply_verify
+
+[statistics]
+purchase/statistics/purchase_statistics                     = personal_delay_statistics
+purchase/statistics/department_purchase_statistics          = department_delay_statistics
+purchase/statistics/purchase_sale_statistics                = personal_purchase_sale_statistics
+purchase/statistics/department_purchase_sale_statistics     = department_purchase_sale_statistics
+purchase/statistics/personal_development_statistics         = personal_development_statistical
+purchase/statistics/develop_department_statistics           = develop_department_statistics
+purchase/statistics/purchase_department_statistics          = purchase_department_statistics
+purchase/statistics/department_ito_statistics               = department_month_ito_statistics
+
+[outstock_instock]
+stock/inout/instock_record                               = instock_record
+stock/inout/inout_stock_record                           = inout_stock_record
+
+[waiting_for_perfect_purchase_goods]
+purchase/waiting_for_perfect_purchase_goods/waiting_for_perfect_purchase_goods_list =waiting_for_perfect_goods

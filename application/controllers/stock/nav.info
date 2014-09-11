@@ -1,0 +1,52 @@
+[stock_statistics]
+stock/statistics/stock_check                             = order_status_check
+stock/statistics/pick_up_products                        = pick_up_products_list
+
+stock/statistics/personal_statistics                     = personal_statistics
+stock/statistics/department_statistics                   = department_statistics
+
+[outstock_instock]
+stock/inout/outstock                                     = product_outstock
+stock/inout/outstock_type_manage                         = outstock_type_setting
+stock/inout/instock_apply                                = product_instock_apply
+stock/inout/instock_verify                               = product_instock_verify
+stock/inout/outstock_record                              = outstock_record
+stock/inout/instock_record                               = instock_record
+stock/inout/inout_stock_record                           = inout_stock_record
+stock/inout/instock_by_label                             = instock_by_label
+stock/inout/quick_in_stock                             	= quick_in_stock
+stock/inout/quick_out_stock                             	= quick_out_stock
+stock/inout/print_sku_bar                             	= print_sku_bar
+[deliver_management]
+shipping/deliver_management/wait_for_shipping_label     = wait_for_shipping_label
+shipping/deliver_management/before_late_print_label     = late_print_label
+shipping/deliver_management/shipping_confirmation       = shipping_confirmation
+shipping/deliver_management/wait_for_purchase_order_list = wait_for_purchase_order_list
+shipping/deliver_management/print_or_deliver            = print_or_deliver
+
+
+[check_or_count]
+stock/stock_check/waiting_check_or_count                = stock_check_or_count
+stock/stock_check/check_or_count_recorder               = check_or_count_recorder
+stock/stock_check/stock_differences_review              = stock_differences_review
+stock/stock_check/update_shelf_code              = update_shelf_code
+stock/stock_check/import_stock_count              = import_stock_count
+
+[stock_code_setting]
+stock/stock_code/stock_code_setting                     = stock_code_setting
+
+[abroad_stock]
+stock/abroad_stock/in_store_apply_page                  = in_store_apply
+shipping/deliver_management/before_late_print_label_abroad        = wait_for_shipping
+shipping/deliver_management/wait_for_purchase_order_list_abroad          = wait_for_purchase_order_list
+stock/move_stock/move_form                  = move_stock
+stock/move_stock/confirm_arrival                  = confirm_arrival
+
+[waiting_for_stock_goods]
+stock/waiting_for_stock_goods/waiting_for_stock_goods_list           = waiting_for_perfect_goods
+
+[refound_resend]
+order/return_order_auditing/management                          = order_return_manage
+
+[ebay_comment_list]
+stock/ebay_product/ebay_comment_list                   = ebay_comment_list

@@ -1,0 +1,7 @@
+[hook]
+uri = myinfo/myaccount/by_type
+
+[department_duty_statistics]
+myinfo/myaccount/by_type                                        = by_refund_type
+myinfo/myaccount/by_sku                                         = by_sku
+myinfo/myaccount/by_duty                                        = by_refund_duty

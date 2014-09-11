@@ -1,0 +1,10 @@
+[qt]
+purchase/order/product_how = product_how
+
+[recommend_service_list]
+qt/recommend/add = input_returned_detailedly;
+qt/recommend/search = recommend_service_list_add;
+qt/recommend/manage = recommend_service_list_manage
+
+[wait_to_qt]
+qt/wait_for_product_list/view_list_pages = wait_for_qt_check_product

@@ -1,0 +1,10 @@
+[hook]
+uri = order/setting/order_list_ack_failed
+
+[special_order]
+order/special_order/view_list_ack_failed            = order_list_ack_failed
+order/special_order/view_list_pending               = order_list_pending
+order/special_order/view_list_unauthorized          = order_list_unauthorized
+order/special_order/view_list_sendmoney             = order_sendmoney
+order/special_order/view_list_merged                = order_merged
+order/special_order/view_list_12hours_missing		=12hours_missing

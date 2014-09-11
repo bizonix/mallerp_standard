@@ -1,0 +1,40 @@
+h5{
+    font-size:12px;
+    padding: 3px 5px 3px 5px;
+    margin: 0;
+    border-style: solid none solid none;
+    border-top-color:#BDC7E7;
+    border-bottom-color:#A1BBE4;
+    border-width: 1px 0px 1px 0px;
+    color:#fff;
+    background-color: #63699C;
+    cursor:pointer;
+}
+.accordion{
+    border: 1px solid #1F669B;
+    width: 400px;
+    font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    overflow: auto;
+}
+.panel_title{
+    color: #DB9900;
+    background-color: #63699C;
+    background:url("../images/sort_row_bg.gif") repeat-x scroll 0 50% transparent;
+}
+.panel_title_tab{
+    background-color: #6F8992;
+}
+.panel{
+    margin: 0;
+    padding-bottom: 0;
+    border: none;
+    /* 
+    border: solid;
+    border-color: red;
+    */
+}
+.panel_body{
+    padding: 5px;
+    padding-left: 20px;
+}

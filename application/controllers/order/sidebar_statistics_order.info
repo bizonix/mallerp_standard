@@ -1,0 +1,30 @@
+[hook]
+uri = order/not_received_all_statistics/by_country_and_region
+
+[not_received_all_statistics]
+order/not_received_all_statistics/by_country_and_region              = by_country_and_region
+order/not_received_all_statistics/by_shipping_way                    = by_shipping_way
+order/not_received_all_statistics/by_input_account                   = by_input_account
+order/not_received_all_statistics/by_ship_confirm_user               = by_ship_confirm_user
+order/not_received_all_statistics/by_sku                             = by_sku
+
+[received_all_statistics]
+order/received_all_statistics/by_country_and_region                  = by_country_and_region
+order/received_all_statistics/by_shipping_way                        = by_shipping_way
+order/received_all_statistics/by_input_account                       = by_input_account
+order/received_all_statistics/by_ship_confirm_user                   = by_ship_confirm_user
+order/received_all_statistics/by_sku                                 = by_sku
+
+[received_partial_refunded_statistics]
+order/received_partial_statistics/by_country_and_region              = by_country_and_region
+order/received_partial_statistics/by_shipping_way                    = by_shipping_way
+order/received_partial_statistics/by_input_account                   = by_input_account
+order/received_partial_statistics/by_ship_confirm_user               = by_ship_confirm_user
+order/received_partial_statistics/by_sku                             = by_sku
+
+[refund_resend_statistics]
+order/refund_resend_statistics/by_type                               = by_refund_type
+order/refund_resend_statistics/by_sku                                = by_refund_sku
+order/refund_resend_statistics/by_duty                               = by_refund_duty
+order/refund_resend_statistics/by_buyer_id                           = by_buyer_id
+order/refund_resend_statistics/by_city                               = by_city

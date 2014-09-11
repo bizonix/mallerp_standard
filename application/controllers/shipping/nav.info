@@ -1,0 +1,60 @@
+[shipping_company]
+shipping/shipping_company/add_edit                      = add_a_new_shipping_company
+shipping/shipping_company/manage                        = shipping_company_management
+shipping/shipping_company/view_list                     = shipping_company_view
+
+[shipping_type]
+shipping/shipping_type/add_edit                         = add_a_new_shipping_type
+shipping/shipping_type/manage                           = shipping_type_management
+shipping/shipping_type/view_list                        = shipping_type_view
+
+[shipping_subarea_group]
+shipping/shipping_subarea_group/add_edit                = add_a_new_shipping_subarea_group
+shipping/shipping_subarea_group/manage                  = shipping_subarea_group_management
+shipping/shipping_subarea_group/view_list               = shipping_subarea_group_view
+
+[shipping_subarea]
+shipping/shipping_subarea/add_edit                      = add_a_new_shipping_subarea
+shipping/shipping_subarea/manage                        = shipping_subarea_management
+shipping/shipping_subarea/view_list                     = shipping_subarea_view
+
+[calculate_price]
+shipping/shipping_company/calculate_shipping_price      = calculate_shipping_price
+
+[product_packing]
+pi/packing/add = add_a_new_packing
+pi/packing/manage = packing_management
+
+[deliver_management]
+shipping/deliver_management/wait_for_shipping_label     = wait_for_shipping_label
+shipping/deliver_management/before_late_print_label     = late_print_label
+shipping/deliver_management/shipping_confirmation       = shipping_confirmation
+shipping/deliver_management/import_track_number       = import_track_number
+shipping/deliver_management/import_shipping_cost       = import_shipping_cost
+shipping/deliver_management/epacket                     = epacket_print_label
+shipping/deliver_management/for_the_wish_orders                     = for_the_wish_orders
+shipping/deliver_management/update_shipping_information = update_shipping_back_to_confirmation
+shipping/shipping_code/search                           = edit_number_and_weight
+shipping/deliver_management/wait_for_purchase_order_list    = wait_for_purchase_order_list
+shipping/deliver_management/print_or_deliver            = print_or_deliver
+
+
+[deliver_statistics]
+shipping/deliver_statistics/package_statistics                     = deliver_statistics_personal
+shipping/deliver_statistics/department_package_statistics          = department_package_statistics
+shipping/deliver_statistics/shipping_all_download                  = shipping_all_order_table
+[epacket_config]
+shipping/epacket_config/add_epacket_config			=add_epacket_config
+shipping/epacket_config/manage					=management_epacket_config
+[after_sale]
+order/order_check/shipping_order_check_manage           = order_check_manage
+qt/recommend/manage = recommend_service_list_manage
+
+[shipping_code_setting]
+shipping/shipping_code/fetch_all_shipping_codes         = shipping_code_setting
+
+[waiting_for_perfect_shipping_goods]
+shipping/waiting_for_perfect_shipping_goods/waiting_for_perfect_shipping_goods_list  = waiting_for_perfect_goods
+
+[country_setting_list]
+order/country_list/manage                           = country_setting_list

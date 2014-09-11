@@ -1,0 +1,21 @@
+[system_management]
+admin/system/enable_disable = system_enable_disable
+admin/system/system_setting = system_setting
+admin/aliexpress/get_aliexpress_token =get_aliexpress_token
+
+[groups_and_users]
+admin/group/manage = group_management
+admin/group/permission = group_permission
+admin/user/manage = user_management
+
+[roles_and_levels]
+admin/role_level/manage = role_and_level_management
+
+[message]
+admin/message/manage = message_management
+
+[template_management]
+admin/template/shipped_notification = shipped_notification_template
+
+[admin_crontab]
+admin/crontab/admin_crontab                         = admin_crontab

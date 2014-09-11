@@ -1,0 +1,8 @@
+[document_catalog]
+edu/catalog/add                     = add_a_new_document_catalog
+edu/catalog/manage                  = catalog_management
+
+[staff]
+myinfo/myaccount/staff_manage       = staff_management
+myinfo/myaccount/add_expire_day     = day_notice
+myinfo/myaccount/expire_day_manage  = coming_day_info

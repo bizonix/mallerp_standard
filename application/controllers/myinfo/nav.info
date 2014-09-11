@@ -1,0 +1,19 @@
+[my_account]
+myinfo/myaccount/view_account          = my_account
+
+[important_message]
+myinfo/myaccount/important_message_management        = important_message
+
+[duty_statistics]
+myinfo/myaccount/return_cost_statistic      = personal_duty_statistics
+myinfo/myaccount/by_type                    = department_duty_statistics
+
+[work_rewards_error]
+myinfo/myaccount/work_rewards_error         = work_reward_manage
+myinfo/myaccount/work_rewards_error_edit    = add_work_reward
+myinfo/myaccount/csv_upload                 = upload_csv_file
+
+[purchase_apply]
+order/purchase_apply/add               = purchase_apply_add
+order/purchase_apply/manage            = my_purchase_apply
+order/purchase_apply/all_reviewed      = all_reviewed_purchase_apply

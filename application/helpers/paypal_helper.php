@@ -1,0 +1,183 @@
+<?php
+/*
+$API_UserName=API_USERNAME;
+
+
+$API_Password=API_PASSWORD;
+
+
+$API_Signature=API_SIGNATURE;
+
+
+$API_Endpoint =API_ENDPOINT;
+
+
+$version=VERSION;
+
+
+$subject = SUBJECT;
+ */
+
+//session_start();
+
+/**
+  * hash_call: Function to perform the API call to PayPal using API signature
+  * @methodName is name of API  method.
+  * @nvpStr is nvp string.
+  * returns an associtive array containing the response from the server.
+*/
+
+
+function hash_call($methodName,$nvpStr)
+{
+    $CI = &get_instance();
+    $paypal = $CI->get_paypal_account();
+
+    $API_UserName = $paypal->apiuser;
+    $API_Password = $paypal->apipass;
+    $API_Signature = $paypal->apisign;
+    
+    $API_Endpoint =API_ENDPOINT;
+    $version=VERSION;
+    $subject = SUBJECT;
+
+	//setting the curl parameters.
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $API_Endpoint);
+	curl_setopt($ch, CURLOPT_VERBOSE, 1);
+
+	//turning off the server and peer verification(TrustManager Concept).
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+	curl_setopt($ch, CURLOPT_POST, 1);
+    //if USE_PROXY constant set to TRUE in Constants.php, then only proxy will be enabled.
+   //Set proxy name to PROXY_HOST and port number to PROXY_PORT in constants.php
+	if(USE_PROXY)
+	curl_setopt ($ch, CURLOPT_PROXY, PROXY_HOST.":".PROXY_PORT);
+
+	//check if version is included in $nvpStr else include the version.
+	if(strlen(str_replace('VERSION=', '', strtoupper($nvpStr))) == strlen($nvpStr)) {
+		$nvpStr = "&VERSION=" . urlencode($version) . $nvpStr;
+	}
+
+	$nvpreq="METHOD=".urlencode($methodName).$nvpStr;
+
+	//setting the nvpreq as POST FIELD to curl
+	curl_setopt($ch,CURLOPT_POSTFIELDS,$nvpreq);
+
+	//getting response from server
+	$response = curl_exec($ch);
+
+	//convrting NVPResponse to an Associative Array
+	$nvpResArray=deformatNVP($response);
+	$nvpReqArray=deformatNVP($nvpreq);
+	$_SESSION['nvpReqArray']=$nvpReqArray;
+
+	if (curl_errno($ch)) {
+		// moving to display page to display curl errors
+		  $_SESSION['curl_error_no']=curl_errno($ch) ;
+		  $_SESSION['curl_error_msg']=curl_error($ch);
+
+          return false;
+	 } else {
+		 //closing the curl
+			curl_close($ch);
+	  }
+
+    return $nvpResArray;
+}
+
+/** This function will take NVPString and convert it to an Associative Array and it will decode the response.
+  * It is usefull to search for a particular key and displaying arrays.
+  * @nvpstr is NVPString.
+  * @nvpArray is Associative Array.
+  */
+
+function deformatNVP($nvpstr)
+{
+	$intial=0;
+ 	$nvpArray = array();
+
+
+	while(strlen($nvpstr)){
+		//postion of Key
+		$keypos= strpos($nvpstr,'=');
+		//position of value
+		$valuepos = strpos($nvpstr,'&') ? strpos($nvpstr,'&'): strlen($nvpstr);
+
+		/*getting the Key and Value values and storing in a Associative Array*/
+		$keyval=substr($nvpstr,$intial,$keypos);
+		$valval=substr($nvpstr,$keypos+1,$valuepos-$keypos-1);
+		//decoding the respose
+		$nvpArray[urldecode($keyval)] =urldecode( $valval);
+		$nvpstr=substr($nvpstr,$valuepos+1,strlen($nvpstr));
+     }
+     
+	return $nvpArray;
+}
+
+function NVPToArray($nvpArray) {
+    $result = array();
+    $ack = '';
+    if (isset($nvpArray['ACK'])) {
+        $ack = $nvpArray['ACK'];
+    }
+    $result['ACK'] = $ack;
+    $result['transactions'] = array();
+
+    if (!isset($nvpArray["L_TRANSACTIONID0"])) {
+        return $result;
+    }
+    
+    $count = 0;
+    while (isset($nvpArray["L_TRANSACTIONID".$count])) {
+        $count++;
+    }
+    $ID=0;
+    while ($count>0) {
+        $transactionID    = $nvpArray["L_TRANSACTIONID".$ID];
+        $timeStamp = $nvpArray["L_TIMESTAMP".$ID];
+        $payerName  = $nvpArray["L_NAME".$ID];
+        $amount  = isset($nvpArray["L_AMT".$ID]) ? $nvpArray["L_AMT".$ID] : 0;
+        $status  = $nvpArray["L_STATUS".$ID];
+        $count--; $ID++;
+        $result['transactions'][] = array(
+            'transactionID' => $transactionID,
+            'timeStamp'     => $timeStamp,
+            'payerName'     => $payerName,
+            'amount'        => $amount,
+            'status'        => $status
+        );
+    }
+    return $result;
+}
+
+
+function auto_comfirmed_contries()
+{
+    return array(
+        "United States",
+        "Australia",
+        "United Kingdom",
+        "Canada",
+        "Italy",
+        "Spain",
+        "Ireland",
+        "France",
+        "Mexico",
+        "Belarus",
+        "Hungary",
+        "Netherlands",
+        "Greece",
+        "Slovakia",
+        "Kazakhstan",
+        "Russia",
+        "Norway",
+        "Singapore",
+        "Israel",
+    );
+}
+
+?>

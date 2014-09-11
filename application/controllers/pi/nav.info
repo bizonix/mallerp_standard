@@ -1,0 +1,32 @@
+[product_catalog]
+pi/catalog/add                                  = add_a_new_catalog
+pi/catalog/manage                               = catalog_management
+pi/catalog/set_catalog_sale_permission          = set_catalog_sale_permission
+[product]
+pi/product/add_edit                             = add_a_new_product
+pi/product/manage                               = product_management
+pi/product/view_list                            = product_view
+pi/product/import_product                       = import_product
+pi/product/set_product_purchaser                       = set_product_purchaser
+pi/product/import_product_stock                 = batch_import_product_shelf_code
+[product_permission]
+pi/permission/edit                              = edit_product_permission
+
+[purchase_apply]
+pi/purchase_apply/manage                        = purchase_apply_complete
+
+[delete_product_permission]
+pi/setting/delete_permission                    = delete_product_permission_setting
+
+[shelf_code_setting]
+pi/shelf_code_setting/product_shelf_code_setting    = shelf_code_setting
+
+[home_setting]
+pi/home_setting/show_home_setting                   = home_setting
+
+[waiting_for_perfect_goods]
+pi/waiting_for_perfect_goods/waiting_for_pi_goods_list  = waiting_for_perfect_goods
+
+[waiting_for_update_pic]
+pi/waiting_for_update_pic/waiting_for_update_pic_list   = waiting_for_update_pic
+

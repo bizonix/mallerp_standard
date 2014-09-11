@@ -1,0 +1,8 @@
+[hook]
+uri = order/confirm_order_condition/wait_for_confirm_sku
+
+[confirm_order_condition]
+order/confirm_order_condition/wait_for_confirm_sku                             = wait_for_confirm_sku
+
+[auto_confirm_management]
+order/confirm_order_condition/country_and_amount_setting                       = country_and_amount

@@ -1,0 +1,19 @@
+
+A:link {
+	COLOR: #111111; CURSOR: hand; FONT-STYLE: normal; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #000000; FONT-STYLE: normal; TEXT-DECORATION: none
+}
+A:active {
+	COLOR: #000000; FONT-STYLE: normal; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #ff6600; TEXT-DECORATION: underline
+}
+
+.purchase {
+	COLOR: #000000; FONT-FAMILY: "宋体"; FONT-SIZE: 12px; LINE-HEIGHT: 18px
+}
+
+

@@ -1,0 +1,78 @@
+[regular_order]
+order/regular_order/confirm_order                   = confirm_order
+order/regular_order/view_order                      = view_order
+order/regular_order/file_order_view                 = file_order_view 
+order/regular_order/all_order_view                  = all_order_view
+order/regular_order/abroad_order_view               = abroad_order
+order/regular_order/add                             = add_order
+order/regular_order/search                          = copy_order
+order/regular_order/not_shipping_orders_view        =not_shipping_order
+order/confirm_order_condition/wait_for_confirm_sku  = confirm_management
+order/special_order/view_list_import_log            = order_import_log
+
+
+[special_order]
+order/special_order/view_list_ack_failed            = special_order
+
+
+[order_check]
+order/order_check/search                            = for_a_new
+order/order_check/sale_order_check_manage           = order_check_manage
+order/paypalapi/search_paypal_api			= paypal_default_data
+
+[refound_resend]
+order/special_order/view_list_return_order                      = order_return
+order/return_order_auditing/auditing_all_orders                 = return_order_auditing
+order/return_order_auditing/auditing_big_money_orders           = big_money_order_auditing
+order/return_order_auditing/auditing_small_money_orders         = small_money_order_auditing
+order/return_order_auditing/management_for_order                = order_return_manage
+order/paypalapi/refundtransaction     				= paypal_refund_transaction
+
+[give_order_back]
+order/regular_order/give_order_back                 = give_order_back
+
+[customer_black_list]
+order/blacklist/add_edit                            = customer_black_list_add
+order/blacklist/manage                              = customer_black_list_manage
+order/blacklist/view_list                           = customer_black_list_view
+
+[email_manage]
+order/setting/paypal_email                          = paypal_email_ebay_id_setting
+order/setting/stmp_host                             = notification_account_setting
+order/order_email/view_order                        = email_manage
+
+[setting]
+order/power_manage/power_management_setting         = manage_power_set
+order/setting/order_view_permission                 = order_view_permission_setting
+order/profit_rate/profit_rate_view_setting          = order_profit_rate_view_setting
+order/setting/search                                = modification_order_status
+order/setting/order_bad_comment_type_setting        = order_bad_comment_type_setting
+
+[recommend_service_list_manage]
+qt/recommend/manage                                       = recommend_service_list_manage
+
+
+[pi_manage]
+order/order_pi_manage/pi_manage                           = pi_manage
+
+[order_statistics]
+order/order_statistics/sale_statistics                       = sales_statistics
+order/order_statistics/my_sale_statistics                       = my_sale_statistics
+order/order_statistics/customer_rank                       = customer_rank
+order/order_statistics/sku_rank                       = sku_rank
+
+[statistics_graph]
+order/statistics_graph/order_count_statistics             = order_count_statistics
+
+
+[ebay_comment]
+order/ebay_comments/comments_manage                       = ebay_comment
+
+
+[alibaba_busyniss]
+order/regular_order/aliexpress                        = alibaba_orders_input
+
+[ebay_message_management]
+order/ebay_message/catalog                       = ebay_message_catalog_management
+order/ebay_message/template                       = ebay_message_template_management
+order/ebay_message/manage                       = ebay_message_reply

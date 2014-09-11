@@ -1,0 +1,11 @@
+[document_catalog]
+edu/catalog/add                     = add_a_new_document_catalog
+edu/catalog/manage                  = catalog_management
+
+[document_content]
+edu/content/add                     = add_a_new_document_content
+edu/content/manage                  = content_management
+edu/content/view_list               = content_view
+
+
+

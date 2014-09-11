@@ -1,0 +1,52 @@
+[resources]
+seo/resource/resource_catalog = resource_category_manage
+seo/resource/view_resource_catalog = resource_category_view
+seo/resource/add_edit = add_new_resource
+seo/resource/manage = resource_management
+seo/resource/view_list = resource_view
+seo/resource/csv_upload = resource_csv_upload
+
+[content_edit]
+seo/content_edit/content_type = content_catalog_manage
+seo/content_edit/view_content_type = content_catalog_view
+seo/content_edit/add_edit = add_new_content
+seo/content_edit/manage = seo_content_management
+seo/content_edit/view_list = content_view
+
+[seo_keyword]
+seo/seo_keyword/add_edit = seo_keyword_add
+seo/seo_keyword/manage = seo_keyword_management
+seo/seo_keyword/view_list = seo_keyword_view_list
+
+[release]
+seo/release/manage = release_management
+seo/release/personal_released_management = personal_released_management
+seo/release/department_released_management = department_released_management
+seo/release/csv_upload = csv_upload
+
+[content_resource]
+seo/release/search_content = content_resource_map
+
+[integral]
+seo/release/integral_info = my_integral
+seo/release/integral_statistics = integral_statistics
+
+[service_company]
+seo/service_company/manage = service_company_manage
+
+[permission_copy]
+seo/permission_copy/permission_copy_show   = permission_copy
+
+[seo_rank]
+seo/seo_rank/seo_rank_search = seo_ranking_search
+
+[email_marketing]
+seo/email_marketing/email_marketing_manage    =   email_template
+seo/email_search/email_advanced_search        = email_advanced_search
+
+
+
+
+
+
+

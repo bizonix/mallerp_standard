@@ -1,0 +1,542 @@
+<?php
+$CI = & get_instance();
+$filters_session = $CI->filter->get_filters('order');
+if ( ! isset($see_profit_rate))
+{
+    $see_profit_rate = FALSE;
+}
+$sort_key = 'delay_times';
+$order_status = element('order_status', $filters_session);
+if ($order_status == 6)
+{
+    $sort_key = 'purchase_delay_times';
+}
+else if ($order_status == 2)
+{
+    $sort_key = 'wait_confirmation_delay_times';
+}
+
+$base_url = base_url();
+$head = array(
+    array('text' => lang('delay_times'), 'sort_key' => $sort_key, 'id' => 'order'),
+    array('text' => lang('item_information'), 'sort_key' => 'item_no'),
+    array('text' => lang('product_information'), 'sort_key' => 'item_title_str'),
+    array('text' => lang('gathering_transaction_remark'), 'sort_key' => 'transaction_id'),
+    array('text' => lang('shipping_info'), 'sort_key' => 'ship_confirm_date'),
+    array('text' => lang('shipping_way'), 'sort_key' => 'is_register'),
+	array('text' => lang('ebay_shippingamt').'/'.lang('customer_remark'), 'sort_key' => 'shippingamt'),
+);
+if ($see_profit_rate)
+{
+    $head[] = array('text' => lang('total_profit_rate'), 'sort_key' => 'profit_rate');
+}
+$head[] = array('text' => lang('order_status'), 'sort_key' => 'order_status');
+$head[] = array('text' => lang('import_date'), 'sort_key' => 'input_date');
+$head[] = lang('options');
+
+$data = array();
+
+$ebay_url = 'http://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&item=';
+
+$statuses = fetch_statuses('order_status');
+$statuses_r = fetch_statuses_r('order_status');
+$products_save = array();
+
+$purchasers = array();
+
+$total_return_cost = 0;
+foreach ($orders as $order)
+{
+    $row = array();
+
+    $gross = empty($order->gross) ? $order->net : $order->gross;
+    $rmb = price($this->order_model->calc_currency($order->currency, $gross));
+
+    $lang_name = lang('name_en');
+    $lang_address = lang('address_en');
+    $lang_town_city = lang('town_city_en');
+    $lang_state_province = lang('state_province_en');
+    $lang_countries = lang('country_en');
+    $lang_zip_code = lang('postal_code_en');
+
+    $name = $order->name . (empty($order->buyer_id) ? '' : "($order->buyer_id)");
+
+    $phone = '';
+    if ( ! empty ($order->contact_phone_number))
+    {
+        $phone = lang('phone') . ':';
+        $phone .= $order->contact_phone_number;
+    }
+    $item_info =<<<ITEM
+<div style='padding: 10px;'>
+$order->item_no<br/>
+$lang_name : $name <br/>
+$lang_address : $order->address_line_1  $order->address_line_2<br/>
+$lang_town_city :$order->town_city<br/>
+$lang_state_province : $order->state_province<br/>
+$lang_countries ：$order->country<br/>
+$lang_zip_code : $order->zip_code<br/>
+$phone
+</div>
+ITEM;
+
+    $readable_time = 0;
+    if ($order_status == 9)
+    {
+        $readable_time = secs_to_readable($order->delay_times);
+    }
+    else if ($order_status == 6)
+    {
+        $readable_time = secs_to_readable($order->purchase_delay_times);
+    }
+	else
+	{
+		$readable_time = secs_to_readable($order->wait_confirmation_delay_times);
+	}
+
+    $row[] = $readable_time['days'] . lang('day') . '<br/>' .
+            $readable_time['hours'] . lang('hour');
+
+
+    $row[] = $item_info;
+
+    $item_ids = explode(',', $order->item_id_str);
+    $skus = explode(',', $order->sku_str);
+    $qties = explode(',', $order->qty_str);
+    $count = count($skus);
+
+    $item_sku_html = '';
+    $product_name = '';
+    $item_sku_html .= "<div id='item_div_$order->id'>";
+    for ($i = 0; $i < $count; $i++)
+    {
+        $item_id = element($i, $item_ids);
+        if (strlen($item_id) == 12)
+        {
+            $link = '<a target="_blank" href="' . $ebay_url . $item_id . '">' . $item_id .'</a>';
+        }
+        else
+        {
+            $link = $item_id;
+        }
+        $item_sku_html .= '<div style="margin-top: 5px;">';
+        if ($item_id)
+        {
+            $item_sku_html .= "Item ID: $link<br/>";
+        }
+        $purchaser_name = '';
+        if (isset($purchasers[$skus[$i]]))
+        {
+            $purchaser_name = $purchasers[$skus[$i]];
+        }
+        else
+        {
+            $purchaser_name = get_purchaser_name_by_sku($skus[$i]);
+            $purchasers[$skus[$i]] = $purchaser_name;
+        }
+
+        if (in_array($skus[$i], $products_save))
+        {
+            $product = $products_save[$skus[$i]];
+        }
+        else
+        {
+            $product = $this->product_model->fetch_product_by_sku($skus[$i]);
+            $products_save[$skus[$i]] = $product;
+        }
+        $on_way_count = isset($product->on_way_count) ? $product->on_way_count : 0;
+        $due_count = isset($product->dueout_count) ? $product->dueout_count: 0;
+        $stock_count = isset($product->stock_count) ? $product->stock_count: 0;
+        if (($due_count - $stock_count - $on_way_count) > 0)
+        {
+            $item_sku_html .=  ' SKU: ' . (isset($skus[$i]) ?  ': <font color = "red" >' . $skus[$i] . '</font>' . ' * ' . element($i, $qties) . ' (' . get_product_name($skus[$i]) . ')' : '') . ' ' . $purchaser_name . '<br/>';
+        }
+        else if (($due_count - $stock_count) > 0)
+        {
+            $item_sku_html .=  ' SKU: ' . (isset($skus[$i]) ?  ': <font color = "orange" >' . $skus[$i] . '</font>' . ' * ' . element($i, $qties) . ' (' . get_product_name($skus[$i]) . ')' : '') . ' ' . $purchaser_name . '<br/>';
+        }
+        else
+        {
+            $item_sku_html .=  ' SKU: ' . (isset($skus[$i]) ? $skus[$i] . ' * ' . element($i, $qties) . ' (' . get_product_name($skus[$i]) . ')' : '') . ' ' . $purchaser_name . '<br/>';
+        }
+        $item_sku_html .= '</div>';
+    }
+    $item_sku_html .= '</div>';
+    $shipping_type = lang('shipping_way') . ': ';
+    $shipping_type .= $order->is_register;
+    $item_title_str = str_replace(',', '<br/>', $order->item_title_str);
+    $item_title_str = str_replace(ITEM_TITLE_SEP, '<br/>', $order->item_title_str);
+    $product_info =<<<PRODUCT
+<div style='padding: 10px;'>
+$item_title_str<br/>
+$item_sku_html
+</div>
+PRODUCT;
+
+
+$return_cost_html = '';
+$move_order_html = '';
+
+$wait_for_feedback =  $statuses_r['wait_for_feedback'];
+$received = $statuses_r['received'];
+
+/**
+ * 未收到-已部分退款还可以再次退款。
+ * 已收到-已部分退款还可以再次退款。
+ * **/
+$received_part_no = $statuses_r['not_received_partial_refunded'];
+$received_part = $statuses_r['received_partial_refunded'];
+
+if($order->order_status==$wait_for_feedback || $order->order_status==$received || $order->order_status==$received_part_no || $order->order_status==$received_part)
+{
+    $anchor = anchor(
+        site_url('order/special_order/view_return_order', array($order->id)),
+        lang('return_order').'>>'
+    );
+    $return_cost_html = form_label($anchor);
+    $return_cost_html .= '<br/>';
+}
+
+$no_consignment_return_cost_html = '';
+
+//$wait_for_feedback =  $statuses_r['wait_for_feedback'];
+//$received = $statuses_r['received'];
+
+$status_id_wfa = $statuses_r['wait_for_assignment'];
+$status_id_wfc = $statuses_r['wait_for_confirmation'];
+$status_id_h = $statuses_r['holded'];
+
+$status_id_wffc = $statuses_r['wait_for_finance_confirmation'];
+$status_id_wfp = $statuses_r['wait_for_purchase'];
+$status_id_wfsl = $statuses_r['wait_for_shipping_label'];
+
+//if(isset ($tag))
+if($order->order_status==$status_id_wfa || $order->order_status==$status_id_wfc || $order->order_status==$status_id_h || $order->order_status==$status_id_wffc || $order->order_status==$status_id_wfp || $order->order_status==$status_id_wfsl)
+{
+    $anchor = anchor(
+//        site_url('order/special_order/view_return_order', array($order->item_no)),
+        site_url('order/special_order/view_return_order', array($order->id)),
+        lang('no_consignment_return_cost_html').'>>'
+    );
+    $no_consignment_return_cost_html = form_label($anchor);
+    $no_consignment_return_cost_html .= '<br/>';
+}
+
+
+$check_html = '';
+
+$arr = array($order->id);
+if(isset($table))
+{
+    $arr = array($order->id, $table);
+}
+else
+{
+    $arr = array($order->id, 'order_list');
+}
+
+$anchor = anchor(
+    site_url('order/order_check/add', $arr),
+    lang('check').'>>'
+);
+$check_html = form_label($anchor);
+$check_html .= '<br/>';
+
+$anchor = anchor(
+	site_url('order/regular_order/add_order_remark', array($order->id)),
+    lang('add_order_remark').'>>'
+);
+$order_remark_html = form_label($anchor);
+$order_remark_html .= '<br/>';
+
+$auditing_html = '';
+//$user_priority = $this->user_model->fetch_user_priority_by_system_code('order');
+
+
+$status_name = $this->order_model->fetch_status_name('order_status', $order->order_status);
+
+
+/*
+ * get total return cost .
+ * **/
+
+$return_cost_arr = array(
+    'not_received_partial_refunded',
+    'not_received_full_refunded',
+    'received_partial_refunded',
+    'received_full_refunded',
+    'not_shipped_agree_to_refund',
+    
+    'not_received_approved_resending',
+    'not_received_resended',
+    'received_approved_resending',
+    'received_resended',
+);
+
+if(in_array($status_name, $return_cost_arr))
+{
+    $total_return_cost =$total_return_cost + calc_currency($order->currency, $order->return_cost);
+}
+
+
+$order_status_arr = array(
+    'not_received_apply_for_partial_refund',
+    'not_received_apply_for_full_refund',
+    'received_apply_for_partial_refund',
+    'received_apply_for_full_refund',
+    'not_received_apply_for_resending',
+    'received_apply_for_resending',
+    'not_shipped_apply_for_refund',
+);
+
+//if(isset ($power)&&$power+1 >= 2 && in_array($status_name, $order_status_arr))//Test
+if(isset ($power)&&$power >= 2 && in_array($status_name, $order_status_arr))
+{
+    $anchor = anchor(
+        site_url('order/special_order/view_return_order', array($order->id, 'auditing')),
+        lang('return_and_again_auditing').'>>'
+    );
+    $auditing_html = form_label($anchor);
+    $auditing_html .= '<br/>';
+}
+
+ $make_pi_url = site_url('order/special_order/make_pi', array('order_id' => $order->id));
+ $make_pi_html = '';
+if($order->id)
+{
+    $anchor = anchor(
+        $make_pi_url, lang('make_pi').'>>',array('target' => '_blank')
+    );
+    $make_pi_html = form_label($anchor);
+    $make_pi_html .= '<br/>';
+}
+
+$again_html = '';
+
+$status_nrar =  $statuses_r['not_received_approved_resending'];
+$status_rar = $statuses_r['received_approved_resending'];
+
+
+if($order->order_status==$status_nrar || $order->order_status==$status_rar)
+{
+    $anchor = anchor(
+        site_url('order/special_order/again', array($order->id)),
+        lang('again').'>>'
+    );
+    $again_html = form_label($anchor);
+    $again_html .= '<br/>';
+}
+
+$close_html = '';
+if(FALSE)
+{
+    $url = site_url('order/regular_order/close_order', array($order->id));
+
+    $close_html = '<label onclick="this.blur();helper.ajax(\''.$url.'\',null, 1);" >'.lang('close').'>>'.'</label>';
+    $close_html .= '<br/>';
+}
+
+    $row[] = $product_info;
+
+    $lang_remark = lang('remark');
+
+    $track_number_str = str_replace(',', '<br/>', $order->track_number);
+    $other_info =<<<OTHER
+$order->currency: $gross,  RMB : $rmb<br/><br/>
+$order->transaction_id  <br/><br/>
+   $track_number_str
+OTHER;
+    $row[] = $other_info;
+
+
+    $lang_confirm_date = lang('ship_confirm_date');
+    $lang_weight = lang('weight') . '(g)';
+    $lang_confirm_user = lang('ship_confirm_user');
+    $lang_ship_remark = lang('ship_remark');
+    $lang_receive_date = lang('receive_date');
+    $lang_sys_remark = lang('sys_remark');
+
+
+    if(in_array($status_name, $return_cost_arr))
+    {
+        $return_cost = empty ($order->return_cost) ? '' : "(" . lang('return_cost') . ': ' . $order->return_cost . ")";
+    }
+    else
+    {
+        $return_cost = '';
+    }
+
+    $sys_remark_div = "sys_remark_{$order->id}";
+    $ship_weight_str = strpos($order->sub_ship_weight_str, ',') === FALSE ?
+        $order->ship_weight : $order->ship_weight . '(' . str_replace(',', ' ', $order->sub_ship_weight_str) . ')';
+
+    $ship_info =<<<SHIP
+        $lang_confirm_date : $order->ship_confirm_date <br/>
+        $lang_weight : $ship_weight_str <br/>
+        $lang_confirm_user : $order->ship_confirm_user <br/>
+        $lang_ship_remark : $order->ship_remark <br/> | $order->descript $return_cost<br/>
+        $lang_receive_date : $order->order_receive_date <br/>
+        <a href="#" title="click to see detail" onclick="$('$sys_remark_div').toggle();return false;">$lang_sys_remark</a> . <div id='$sys_remark_div' style='display: none;border: 2px solid #F27B04;background-color: #F0FFF0;'>$order->sys_remark<br/><br/>$order->note</div>
+
+SHIP;
+$order_remark_content='';
+$order_remarks = $this->order_model->fetch_order_remark_by_order_id($order->id);
+foreach($order_remarks as $order_remark)
+{
+	$order_remark_content.='['.$order_remark->add_user.']'.$order_remark->add_date.':'.$order_remark->remark_content.'<br/>';
+}
+
+    $row[] = $ship_info;
+
+    $row[] = $order->is_register;
+	$row[] = $order->shippingamt . ' ' . $order->currency.'<br/><br/>'.$order_remark_content;
+
+    if ($see_profit_rate)
+    {
+        if ( $order->cost_user &&
+                $order->profit_rate != 0 &&
+            ( ! $start_profit_rate || $start_profit_rate <= $order->profit_rate) &&
+            ( ! $end_profit_rate || $end_profit_rate >= $order->profit_rate))
+        {
+            $net_rmb = price(calc_currency($order->currency, $order->net));
+            $trade_fee = $order->trade_fee;
+            $listing_fee = $order->listing_fee;
+
+            if (empty($order->trade_fee))
+            {
+                $profit_str = "<div style='color: blue'>";
+                $profit_str .= $order->profit_rate;
+                if ( ! empty($order->gross))
+                {
+                    $trade_fee = $net_rmb * 0.12;
+                }
+            }
+            else
+            {
+                $profit_str = $order->profit_rate;
+            }
+            $profit_str .= '<br/>' . lang('total_revenue') . ': ' . $rmb;
+            $profit_str .= '<br/>' . lang('shipping_cost') . ': ' . $order->shipping_cost;
+            $profit_str .= '<br/>' . lang('product_cost') . ': ' . $order->product_cost_all;
+            $profit_str .= '<br/>' . lang('trade_fee') . ': ' . $trade_fee;
+            $profit_str .= '<br/>' . lang('list_fee') . ': ' . $listing_fee;
+            $profit_str .= '<br/>' . lang('total_profit') . ': ' . price(($net_rmb - $order->cost - $trade_fee - $listing_fee));
+        }
+        else
+        {
+            $profit_str = '';
+        }
+
+        if ($order->profit_rate != 0 && empty($order->trade_fee))
+        {
+            $profit_str .= "</div>";
+        }
+        $row[] = $profit_str;
+    }
+	
+    $row[] = lang(element($order->order_status, $statuses)).'<br/><br/>';
+    $row[] = $order->input_date;
+
+    $row[] = $check_html .  $make_pi_html . $close_html . $return_cost_html . $again_html . $auditing_html.$no_consignment_return_cost_html. $move_order_html.$order_remark_html;
+
+
+
+    $data[] = $row;
+}
+$users = $this->user_model->fetch_users_by_system_code('order');
+$user_options = array();
+$user_options[''] = lang('all');
+foreach($users as $user)
+{
+    $user_options[$user->login_name] = $user->u_name;
+}
+if(isset ($tag))
+{
+    echo block_header(lang('return_order'));
+}
+elseif(isset($abroad))
+{
+    echo block_header(lang('view_abroad_order'));
+}
+else
+{
+    echo block_header(lang('view_order'));
+}
+
+$filters = array(
+    null,
+	array(
+		'type'      => 'input',
+		'field'     => 'item_no|name|country|buyer_id',
+	),
+    array(
+            'type'      => 'input',
+            'field'     => 'item_title_str|item_id_str|sku_str|is_register',
+    ),
+    array(
+		'type'      => 'input',
+		'field'     => 'gross|transaction_id|descript|track_number|sys_remark',
+	),
+    array(
+		'type'      => 'input',
+        'field'     => 'ship_confirm_date|ship_weight|ship_confirm_user',
+	),
+     array(
+        'type'      => 'dropdown',
+        'field'     => 'is_register',
+        'options'   => $shipping_types,
+        'method'    => '=',
+    ),
+	array(
+        'type'      => 'input',
+        'field'     => 'shippingamt',
+        'method'    => '>=',
+    ),
+);
+if ($see_profit_rate)
+{
+    $filters[] = array(
+		'type'      => 'input',
+        'field'     => 'profit_rate',
+        'method'    => 'from_to'
+	);
+}
+$filters[] = $this->block->generate_search_dropdown('order_status', 'order_status');
+$filters[] = array(
+    'type'      => 'date',
+    'field'     => 'input_date',
+    'method'    => 'from_to'
+);
+$CI = & get_instance();
+if($CI->is_super_user())
+{
+    $filters[] = array(
+        'type'      => 'dropdown',
+        'field'     => 'input_user',
+        'options'   => $user_options,
+        'method'    => '=',
+    );
+}
+
+$config = array(
+	'filters'    => $filters,
+);
+
+echo $this->block->generate_pagination('order');
+echo form_open();
+echo $this->block->generate_reset_search($config);
+echo $this->block->generate_table($head, $data, $filters, 'order');
+echo form_close();
+echo $this->block->generate_pagination('order');
+
+$txt = sprintf(lang('total_return_cost'), $total_return_cost);
+
+echo block_notice_div($txt);
+
+if(isset ($table) && $table === 'order_list_completed')
+{
+    echo block_notice_div(lang('completed_return_cost_notice'));
+    echo block_notice_div(lang('move_order_notice'));
+}
+
+?>

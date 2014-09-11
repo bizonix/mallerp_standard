@@ -1,0 +1,8 @@
+[hook]
+uri = order/setting/stmp_host
+
+[account_setting]
+order/setting/stmp_host                                  = stmp_host_setting
+order/setting/stmp_account                               = account_setting
+order/setting/notification_email_account                 = notification_email_account_setting
+order/setting/notification_mode                          = notification_mode_setting

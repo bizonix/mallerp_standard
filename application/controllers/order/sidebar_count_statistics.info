@@ -1,0 +1,5 @@
+[hook]
+uri = order/statistics_graph/order_count_statistics
+
+[order_statistics]
+order/statistics_graph/order_count_statistics                        = order_count_statistics

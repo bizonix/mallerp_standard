@@ -1,0 +1,147 @@
+<?php
+class Purchase_finance_model extends Base_model
+{
+     public function fetch_all_pending_order()
+     {
+         $this->set_offset('finance_pending');
+
+         $sql = <<< SQL
+purchase_order.id as o_id,
+purchase_order.item_no as o_item_no,
+purchase_order.item_cost as o_item_cost,
+purchase_order.payment_state as o_payment_state,
+purchase_order.purchase_note as o_purchase_note,
+purchase_provider.name as pp_name,
+status_map.status_name as s_status_name,
+purchase_order.review_state as o_review_name,
+user.name as u_name,
+user.id as u_id
+SQL;
+         $this->db->select($sql);
+         $this->db->from('purchase_order');
+         $this->db->join('purchase_provider', 'purchase_order.provider_id = purchase_provider.id', 'left');
+         $this->db->join('status_map', 'purchase_order.payment_state = status_map.status_id', 'left');
+         $this->db->join('user', 'purchase_order.purchaser_id = user.id', 'left');       
+         $where = "status_map.type = 'purchase_payment_state' and purchase_order.reject = 0 ".
+                  "and ((purchase_order.item_cost > 10000 and purchase_order.item_cost < 100000 and purchase_order.review_state >=1) ".
+                  " or (purchase_order.item_cost >= 100000 and purchase_order.review_state > 2)".
+                  " or (purchase_order.item_cost <= 10000  and purchase_order.item_cost >= 0 and purchase_order.review_state >= 1))";
+         $this->db->where($where);
+                
+         $this->set_where('finance_pending');
+         $this->set_sort('finance_pending');
+         if (!$this->has_set_sort) {
+            $this->db->order_by('purchase_order.created_date', 'DESC');
+        }
+         
+         $this->db->limit($this->limit, $this->offset);
+
+         $query = $this->db->get();
+         $count = $this->fetch_all_pending_order_count();
+         $this->set_total($count, 'finance_pending');
+
+         return $query->result();
+     }
+
+     public function fetch_all_pending_order_count()
+     {
+         $this->db->select('*');
+         $this->db->from('purchase_order');
+         $this->db->join('purchase_provider', 'purchase_order.provider_id = purchase_provider.id', 'left');
+         $this->db->join('status_map', 'purchase_order.payment_type = status_map.status_id', 'left');
+         $this->db->join('user', 'purchase_order.purchaser_id = user.id', 'left');         
+         $where = "status_map.type = 'purchase_payment_state' and purchase_order.reject = 0  ".
+                  " and ((purchase_order.item_cost > 10000 and purchase_order.item_cost < 100000 and purchase_order.review_state >=1)".
+                  " or (purchase_order.item_cost >= 100000 and purchase_order.review_state >= 2)".
+                  " or (purchase_order.item_cost <= 10000 and purchase_order.item_cost >= 0 and purchase_order.review_state >= 1))";
+         $this->db->where($where);
+         
+         $this->set_where('finance_pending');
+
+         return $this->db->count_all_results();
+     }
+
+     public function fetch_all_payment_states()
+     {
+         $this->db->select('status_map.status_id as s_id, status_map.status_name as s_name');
+         $this->db->from('status_map');
+         $this->db->where(array('type' => 'purchase_payment_state'));
+         $query = $this->db->get();
+    
+         return $query->result();
+
+     }
+
+     public function fetch_payment_cost($purchase_order_id)
+     {        
+             $this->db->select_sum('payment_cost');
+             $this->db->from('purchase_payment');
+             $this->db->where(array('purchase_order_id' => $purchase_order_id));
+             $query = $this->db->get();
+
+             return $query->row();
+         
+     }
+
+     public function fetch_purchase_order($id)
+     {
+         $this->db->select('*');
+         $this->db->from('purchase_order');
+         $this->db->where(array('id' => $id));
+         $query = $this->db->get();
+
+         return $query->row();
+    }
+
+    public function add_purchase_payment($data)
+    {
+        $this->db->insert('purchase_payment', $data);
+    }
+
+    public function fetch_payment_type($purchase_order_id)
+    {
+         $this->db->select('status_map.status_id as s_id, status_map.status_name as s_name');
+         $this->db->from('purchase_order');
+         $this->db->join('status_map', 'purchase_order.payment_type = status_map.status_id');
+         $where = array(
+                'status_map.type'   =>  'payment_type',
+                'purchase_order.id' =>  $purchase_order_id,
+         );
+         $this->db->where($where);
+         $query = $this->db->get();
+
+         return $query->row();
+    }
+
+    public function fetch_all_payment_types()
+    {
+         $this->db->select('status_map.status_id as s_id, status_map.status_name as s_name');
+         $this->db->from('status_map');
+         $this->db->where(array('type' => 'payment_type'));
+         $query = $this->db->get();
+
+         return $query->result();
+    }
+
+    public function update_item_cost($id, $type, $value)
+    {
+        $this->update(
+            'purchase_order',
+            array('id' => $id),
+            array(
+                $type                   => $value,              
+            )
+        );
+    }
+
+    public function update_purchase_order_by_id($id, $data)
+    {
+        $this->update(
+            'purchase_order',
+            array('id' => $id),
+            $data
+        );
+    }
+
+}
+?>

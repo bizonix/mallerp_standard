@@ -1,0 +1,44 @@
+[product_net_name]
+sale/netname/add_edit = add_product_net_name
+sale/netname/manage = product_net_name_manage
+sale/netname/manage_wait_goods = to_improve_the_goods_net
+
+[product_makeup_sku]
+sale/makeup_sku/add_edit = add_product_makeup_sku
+sale/makeup_sku/manage = product_makeup_sku_manage
+
+[recommend_service_list]
+sale/recommend/manage = recommend_service_list_manage
+
+[calculate_price]
+sale/price/calculate_price = calculate_price
+sale/setting/paypal_setting = paypal_fee_setting
+sale/setting/product_category_setting = product_category_setting
+sale/setting/eshop_setting = eshop_fee_setting
+sale/setting/trade_setting = trade_fee_setting
+sale/setting/ebay_platform_setting = ebay_platform_setting
+
+
+[sale_order]
+sale/sale_order/sale_setting = sale_setting
+sale/sale_order/sale_order_view = sale_order_view
+
+
+[ebay_management]
+sale/ebay_manage/myebay_manage = myebay_product_manage
+sale/ebay_manage/saler_ebay_id_setting = saler_ebay_id_setting
+
+[taobao]
+sale/taobao/comments                                = taobao_comment
+sale/mytaobao_list/taobao_manage_view               = toabao_manage
+sale/catalog_sale_statistics/statistic              = catalog_sale_statistics
+
+[statistics]
+sale/view_glance_rate/customer_second_glance_rate             = second_glance_rate_statistic
+
+[waiting_for_perfect_goods]
+sale/waiting_for_sale_goods/waiting_for_sale_goods_list       = waiting_for_perfect_goods
+
+[pi_manage]
+order/order_pi_manage/pi_manage                       = pi_manage
+

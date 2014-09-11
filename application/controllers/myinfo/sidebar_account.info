@@ -1,0 +1,6 @@
+[hook]
+uri = myinfo/myaccount/view_account
+
+[my_account]
+myinfo/myaccount/view_account                                   = set_account
+myinfo/myaccount/manage                                         = user_log

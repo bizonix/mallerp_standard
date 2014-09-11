@@ -1,0 +1,19 @@
+[finance]
+purchase/finance/finance_pending = finance_purchase_review
+
+[order]
+finance/finance_order/confirm_order = order_finance_verify
+
+[exchange_rate]
+finance/rate/rate_setting = exchange_rate_setting
+
+[receipt_way]
+finance/receipt_way/receipt_way_list = receipt_way_setting
+
+[accounting_costs]
+finance/accounting_cost/manage = accounting_costs
+finance/accounting_cost/view_list = view_costs
+
+[statistics_table]
+finance/statistics/product_stock_count      = download_product_stock_count_table
+finance/statistics/order_cost_statistics    = order_cost_statistics

@@ -1,0 +1,179 @@
+
+.categories-side-col {
+    color: #2F2F2F;
+    font: 12px/1.5em Arial,Helvetica,sans-serif;
+}
+
+.categories-side-col .tree-holder {
+    margin-right: 20px;
+}
+
+ul, ol {
+    list-style: none outside none;
+}
+
+#tree-div {
+    overflow: auto !important;
+    padding-bottom: 15px;
+    width: 200px;
+}
+.categories-side-col .tree-actions {
+    margin: 10px 20px 10px 0;
+    text-align: center;
+}
+
+div.side-col {
+    float: left;
+    margin-right: -220px;
+    padding-bottom: 25px;
+    width: 220px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+/*    color: #EA7601;*/
+    text-decoration: underline;
+}
+
+.x-tree-node a, .x-dd-drag-ghost a {
+    -moz-user-focus: normal;
+    -moz-user-select: none;
+    color: black;
+    outline: 0 none;
+    text-decoration: none;
+}
+
+.x-tree-node a span, .x-dd-drag-ghost a span {
+    color: black;
+    padding: 1px 3px 1px 2px;
+    text-decoration: none;
+}
+
+.x-tree-lines .x-tree-elbow-minus {
+    background: url("../images/tree/elbow-minus.gif") no-repeat scroll 0 0 transparent;
+}
+
+.x-tree-elbow-plus, .x-tree-elbow-minus, .x-tree-elbow-end-plus, .x-tree-elbow-end-minus {
+    cursor: pointer;
+}
+
+.x-tree-icon, .x-tree-ec-icon, .x-tree-elbow-line, .x-tree-elbow, .x-tree-elbow-end, .x-tree-elbow-plus, .x-tree-elbow-minus, .x-tree-elbow-end-plus, .x-tree-elbow-end-minus {
+    background-repeat: no-repeat;
+    border: 0 none;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    width: 16px;
+}
+
+.x-tree-icon, .x-tree-ec-icon, .x-tree-elbow-line, .x-tree-elbow, .x-tree-elbow-end, .x-tree-elbow-plus, .x-tree-elbow-minus, .x-tree-elbow-end-plus, .x-tree-elbow-end-minus {
+    background-repeat: no-repeat;
+    border: 0 none;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    width: 16px;
+}
+
+.x-tree-node-expanded .x-tree-node-icon {
+    background: url("../images/tree/folder-open.gif") no-repeat scroll 0 50% transparent;
+}
+
+.x-tree-node-collapsed .x-tree-node-icon, .x-tree-node-expanded .x-tree-node-icon, .x-tree-node-leaf .x-tree-node-icon {
+    background-position: center center;
+    background-repeat: no-repeat;
+    border: 0 none;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    width: 16px;
+}
+.x-tree-node-collapsed .x-tree-node-icon {
+    background: url("../images/tree/folder.gif") no-repeat scroll 0 50% transparent;
+}
+
+.x-tree-lines .x-tree-elbow-plus {
+    background: url("../images/tree/elbow-plus.gif") no-repeat scroll 0 0 transparent;
+}
+
+.x-tree-elbow-plus, .x-tree-elbow-minus, .x-tree-elbow-end-plus, .x-tree-elbow-end-minus {
+    cursor: pointer;
+}
+
+.x-tree-icon, .x-tree-ec-icon, .x-tree-elbow-line, .x-tree-elbow, .x-tree-elbow-end, .x-tree-elbow-plus, .x-tree-elbow-minus, .x-tree-elbow-end-plus, .x-tree-elbow-end-minus {
+    background-repeat: no-repeat;
+    border: 0 none;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    width: 16px;
+}
+.x-tree-icon, .x-tree-ec-icon, .x-tree-elbow-line, .x-tree-elbow, .x-tree-elbow-end, .x-tree-elbow-plus, .x-tree-elbow-minus, .x-tree-elbow-end-plus, .x-tree-elbow-end-minus {
+    background-repeat: no-repeat;
+    border: 0 none;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    width: 16px;
+}
+
+.x-tree-elbow-plus, .x-tree-elbow-minus, .x-tree-elbow-end-plus, .x-tree-elbow-end-minus {
+    cursor: pointer;
+}
+
+.x-tree-lines .x-tree-elbow-line {
+    background: url("../images/tree/elbow-line.gif") repeat scroll 0 0 transparent;
+}
+
+.x-tree-lines .x-tree-elbow-line {
+    background-image: url("../images/tree/elbow-line.gif");
+}
+.x-tree-icon, .x-tree-ec-icon, .x-tree-elbow-line, .x-tree-elbow, .x-tree-elbow-end, .x-tree-elbow-plus, .x-tree-elbow-minus, .x-tree-elbow-end-plus, .x-tree-elbow-end-minus {
+    background-repeat: no-repeat;
+    border: 0 none;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    width: 16px;
+}
+
+.x-tree-node-leaf .x-tree-node-icon {
+    background: url("../images/tree/leaf.gif") no-repeat scroll 0 50% transparent;
+}
+
+.x-tree-lines .x-tree-elbow {
+    background: url("../images/tree/elbow.gif") no-repeat scroll 0 0 transparent;
+}
+
+.x-tree-node {
+    margin: 0 !important;
+}
+
+.x-tree-node {
+    font-size: 12px;
+    font-weight: normal;
+    list-style-type: none;
+}
+
+.x-tree-node {
+    color: black;
+    white-space: nowrap;
+}
+
+.x-tree-node-loading .x-tree-node-icon {
+    background: url("../images/tree/loading.gif") no-repeat scroll 0 50% transparent;
+}
+.x-tree-node-loading a span{
+     font-style: italic;
+     color:#444444;
+}

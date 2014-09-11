@@ -1,0 +1,6 @@
+[hook]
+uri = myinfo/myaccount/return_cost_statistic
+
+[duty_statistics]
+myinfo/myaccount/return_cost_statistic                          = order_return_cost_statistic
+myinfo/myaccount/bad_comment_statistic                          = order_bad_comment_statistic

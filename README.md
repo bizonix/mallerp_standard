@@ -1,5 +1,5 @@
 Mallerp中小卖家版本
-支持 ebay alipress wish zencart magento eub amazon等
+支持 ebay alipress zencart magento eub amazon等
 安装配置：
 需要solr和php_mallerp支持
 安装方法参见官方网站教程http://www.mallerp.com
